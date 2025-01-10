@@ -11,13 +11,39 @@ from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
 
-# from models import Person
+
+#########################################################################################################
+######################################### ADD THESE START ###############################################
+#########################################################################################################
+
+from werkzeug.middleware.proxy_fix import ProxyFix
+from datetime import timedelta
+
+#########################################################################################################
+######################################### ADD THESE END #################################################
+#########################################################################################################
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(
     os.path.realpath(__file__)), '../public/')
 app = Flask(__name__)
 app.url_map.strict_slashes = False
+
+#########################################################################################################
+######################################### ADD THESE START ###############################################
+#########################################################################################################
+
+#Flask Login page proxyfix
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
+
+# Add these near the top of your app configuration
+app.config['SESSION_TYPE'] = 'filesystem'
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=24)
+
+#########################################################################################################
+######################################### ADD THESE END #################################################
+#########################################################################################################
+
 
 # database condiguration
 db_url = os.getenv("DATABASE_URL")

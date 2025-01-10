@@ -1,3 +1,34 @@
+
+# Session-Based Login
+
+## Add these to .env
+- ADMIN_USERNAME=anyUsername
+- ADMIN_PASSWORD=anyPassword
+
+## Add these folder
+- Add folder in src named templates
+- Inside templates, add file admin_home.html Paste supplied contents
+- Inside templates, add file admin_login.html Paste supplied contents
+
+## Refactor and optimize admin.py
+- Refactor and Optimize admin.py using supplied admin.py
+
+## App.py 
+- add imports
+    1. from werkzeug.middleware.proxy_fix import ProxyFix
+    2. from datetime import timedelta
+
+- add app.config
+    1. app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
+    2. app.config['SESSION_TYPE'] = 'filesystem'
+    3. app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=24)
+
+TEST
+
+
+
+
+
 # WebApp boilerplate with React JS and Flask API
 
 Build web applications using React.js for the front end and python/flask for your backend API.
